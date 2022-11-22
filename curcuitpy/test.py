@@ -3,14 +3,12 @@ import json
 import board
 import neopixel
 import canio
+from pin import pin
 
 # Load the config file
 f = open ('config.json', "r")
 config = json.loads(f.read())
 f.close()
-
-pixel_pin = board.NEOPIXEL
-num_pixels = 10
 
 # Use this line if your board has dedicated CAN pins. (Feather M4 CAN and Feather STM32F405)
 can = canio.CAN(rx=board.CAN_RX, tx=board.CAN_TX, baudrate=250_000, auto_restart=True)
@@ -43,5 +41,5 @@ while True:
         for group in config['groups']:
             if message.id == group['id']:
                 if message.data == bytearray(group['data']):
-                    blink(board.NEOPIXEL)
+                    blink(pin("board.NEOPIXEL"))
     
