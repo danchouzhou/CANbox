@@ -11,7 +11,7 @@ config = json.loads(f.read())
 f.close()
 
 # Use this line if your board has dedicated CAN pins. (Feather M4 CAN and Feather STM32F405)
-can = canio.CAN(rx=board.CAN_RX, tx=board.CAN_TX, baudrate=250_000, auto_restart=True)
+can = canio.CAN(rx=board.CAN_RX, tx=board.CAN_TX, baudrate=500_000, auto_restart=True)
 listener = can.listen(timeout=.9)
 
 def blink(pin):

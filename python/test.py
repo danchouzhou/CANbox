@@ -1,7 +1,7 @@
 from canlib import canlib, Frame
 import time
 
-ch = canlib.openChannel(channel=0, bitrate=canlib.Bitrate.BITRATE_250K)
+ch = canlib.openChannel(channel=0, bitrate=canlib.Bitrate.BITRATE_500K)
 
 ch.setBusOutputControl(canlib.canDRIVER_NORMAL)
 
