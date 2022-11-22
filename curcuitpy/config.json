@@ -1,0 +1,31 @@
+{
+    "groups" : [
+        {
+            "name" : "HazardWarningReq",
+            "id" : 516, 
+            "data" : [128, 0, 0, 0, 0, 0, 0, 0], 
+            "description" : "Hazard Warning Request", 
+            "ports" : ["port_1", "port_2", "port_3", "port_4"]
+        },
+        {
+            "name" : "RightTurnLightReq",
+            "id" : 516, 
+            "data" : [1, 0, 0, 0, 0, 0, 0, 0], 
+            "description" : "Right Turning Light Request", 
+            "ports" : ["port_1", "port_2"]
+        },
+        {
+            "name" : "LeftTurnLightReq",
+            "id" : 516, 
+            "data" : [0, 128, 0, 0, 0, 0, 0, 0], 
+            "description" : "Left Turning Light Request", 
+            "ports" : ["port_3", "port_4"]
+        }
+    ],
+    "ports" : [
+        {
+            "portName" : "port_1",
+            "gpio" : "board.NEOPIXEL"
+        }
+    ]
+}
