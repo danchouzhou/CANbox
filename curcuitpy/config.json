@@ -24,24 +24,20 @@
     ],
     "ports" : [
         {
-            "portName" : "port_0",
-            "gpio" : "board.NEOPIXEL"
+            "name" : "port_0",
+            "pin1" : "NEOPIXEL",
+            "pin2" : "A0"
         },
         {
-            "portName" : "port_1",
-            "gpio" : "board.NEOPIXEL"
+            "name" : "port_1",
+            "pin1" : "NEOPIXEL",
+            "pin2" : "A1"
         },
         {
-            "portName" : "port_2",
-            "gpio" : "board.NEOPIXEL"
-        },
-        {
-            "portName" : "port_3",
-            "gpio" : "board.NEOPIXEL"
-        },
-        {
-            "portName" : "port_4",
-            "gpio" : "board.NEOPIXEL"
+            "name" : "port_2",
+            "pin1" : "D5",
+            "pin2" : "A2"
         }
     ]
 }
+
