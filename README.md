@@ -6,3 +6,4 @@
 ## Reference
 - [CircuitPython Setup | Adafruit STM32F405 Feather Express | Adafruit Learning System](https://learn.adafruit.com/adafruit-stm32f405-feather-express/circuitpython-setup)
 - [Overview | Cooperative Multitasking in CircuitPython with asyncio | Adafruit Learning System](https://learn.adafruit.com/cooperative-multitasking-in-circuitpython-with-asyncio)
+- [Send and Receive | CAN Bus with CircuitPython: Using the canio module | Adafruit Learning System](https://learn.adafruit.com/using-canio-circuitpython/send-receive)
