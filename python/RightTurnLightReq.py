@@ -10,8 +10,9 @@ ch.busOn()
 frame = Frame(id_=516, data=[1, 0, 0, 0, 0, 0, 0, 0], dlc=8)
 
 while True:
-    ch.write(frame)
-
-    time.sleep(0.05)
-
-ch.busOff()
+    try:
+        ch.write(frame)
+        time.sleep(0.1)
+    except KeyboardInterrupt:
+        ch.busOff()
+        break
