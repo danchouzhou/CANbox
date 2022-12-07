@@ -6,8 +6,6 @@ import neopixel
 import canio
 from pin import pin
 
-tasks = []
-
 # Load the config file
 f = open ('config.json', "r")
 config = json.loads(f.read())
@@ -23,8 +21,23 @@ async def blink(pin):
     except Exception as e:
         #print(e)
         return
-        
-async def TurnLightReq(group):
+
+async def blink_faded(pin):
+    try:
+        with neopixel.NeoPixel(pin, 144, brightness=1.0, auto_write=True, pixel_order=neopixel.GRB) as pixels:
+            pixels.fill((255, 75, 2))
+            await asyncio.sleep(0.45)
+            # Fade out
+            seq = [x/10 for x in range(10, -1, -1)]
+            for i in seq:
+                pixels.fill((255*i, 75*i, 2*i))
+                await asyncio.sleep(0.01)
+            await asyncio.sleep(0.35)
+    except Exception as e:
+        #print(e)
+        return
+
+async def HazardWarningReq(group):
     for port_use in group['ports']:
         for port in config['ports']:
             if port_use == port['name']:
@@ -32,17 +45,22 @@ async def TurnLightReq(group):
 #     print('end time', time.monotonic())
 #     print()
 
+async def TurnLightReq(group):
+    for port_use in group['ports']:
+        for port in config['ports']:
+            if port_use == port['name']:
+                 asyncio.create_task(blink_faded(pin(port['pin1'])))
+#     print('end time', time.monotonic())
+#     print()
+
 func_callback = {
-    "HazardWarningReq" : TurnLightReq,
+    "HazardWarningReq" : HazardWarningReq,
     "RightTurnLightReq" : TurnLightReq,
     "LeftTurnLightReq" : TurnLightReq
 }
 
-async def CANListener():
-    # Initialize CAN bus
-    can = canio.CAN(rx=board.CAN_RX, tx=board.CAN_TX, baudrate=500_000, auto_restart=True)
+async def CANListener(can):
     listener = can.listen(timeout=0)
-
     old_bus_state = None
     
     while True:
@@ -62,8 +80,14 @@ async def CANListener():
         await asyncio.sleep(0) # Free up the resource for a while. 
 
 async def main():
-    tasks.append(asyncio.create_task(CANListener()))
+    tasks = []
+    
+    # Initialize CAN bus
+    can = canio.CAN(rx=board.CAN_RX, tx=board.CAN_TX, baudrate=500_000, auto_restart=True)
+
+    tasks.append(asyncio.create_task(CANListener(can)))
     await asyncio.gather(*tasks)
 
 asyncio.run(main())
+
 
