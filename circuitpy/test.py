@@ -58,7 +58,8 @@ async def CANListener():
                 if message.id == group['id'] and message.data == bytearray(group['data']):
                     print(group['description'], time.monotonic())
                     await func_callback[group['name']](group)
-        await asyncio.sleep(0.001) # Free up the resource for a while
+        # Setting the delay to 0 provides an optimized path to allow other tasks to run. 
+        await asyncio.sleep(0) # Free up the resource for a while. 
 
 async def main():
     tasks.append(asyncio.create_task(CANListener()))
