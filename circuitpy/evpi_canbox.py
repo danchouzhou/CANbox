@@ -69,7 +69,7 @@ async def brake_off_timer():
         brake_flag = 0
         await asyncio.sleep(0.2)
         if brake_task != None and brake_flag == 0:
-            print('timeout!')
+            print('Brake signal timeout!')
             brake_task.cancel()
             brake_task = None
             break
@@ -89,7 +89,7 @@ async def brake_on(group):
         for pixels in pixels_list:
             pixels.deinit()
     except Exception as e:
-        print(e)
+        #print(e)
         return
 
 async def BrakeLight(group):
