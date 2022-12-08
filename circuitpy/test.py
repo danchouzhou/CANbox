@@ -53,10 +53,54 @@ async def TurnLightReq(group):
 #     print('end time', time.monotonic())
 #     print()
 
+brake_flag = 0
+brake_task = None
+
+async def brake_off_timer():
+    global brake_flag
+    global brake_task
+    while True:
+        brake_flag = 0
+        await asyncio.sleep(0.2)
+        if brake_task != None and brake_flag == 0:
+            print('timeout!')
+            brake_task.cancel()
+            brake_task = None
+            break
+
+async def brake_on(group):
+    pixels_list = []
+    try:
+        for port_use in group['ports']:
+            for port in config['ports']:
+                if port_use == port['name']:
+                    pixels_list.append(neopixel.NeoPixel(pin(port['pin1']), 144, brightness=1.0, auto_write=True, pixel_order=neopixel.GRB))
+                    pixels_list[len(pixels_list) - 1].fill((255, 18, 0))
+        # Wait until timeout
+        while True:
+            await asyncio.sleep(0)
+    except asyncio.CancelledError:
+        for pixels in pixels_list:
+            pixels.deinit()
+    except Exception as e:
+        print(e)
+        return
+
+async def BrakeLight(group):
+    global brake_flag
+    global brake_task
+    #print(brake_task)
+    # Set the flag indicate brake light signal still present
+    brake_flag = 1
+    if brake_task == None:
+        brake_task = asyncio.create_task(brake_on(group))
+        asyncio.create_task(brake_off_timer())
+
 func_callback = {
     "HazardWarningReq" : HazardWarningReq,
     "RightTurnLightReq" : TurnLightReq,
-    "LeftTurnLightReq" : TurnLightReq
+    "LeftTurnLightReq" : TurnLightReq,
+    "BrakeLight" : BrakeLight
 }
 
 async def CANListener(can):
@@ -89,5 +133,4 @@ async def main():
     await asyncio.gather(*tasks)
 
 asyncio.run(main())
-
 
