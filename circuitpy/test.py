@@ -23,10 +23,16 @@ async def blink(pin):
         return
 
 async def blink_faded(pin):
+    # Design Without Compromise: Signals from the Heart | Mazda Stories
+    # https://mazdastories.com/en_us/innovate/design-without-compromise-signals-from-the-heart/
     try:
         with neopixel.NeoPixel(pin, 144, brightness=1.0, auto_write=True, pixel_order=neopixel.GRB) as pixels:
-            pixels.fill((255, 75, 2))
-            await asyncio.sleep(0.45)
+            # Fade in
+            seq = [x/2 for x in range(0, 3)]
+            for i in seq:
+                pixels.fill((255*i, 75*i, 2*i))
+                await asyncio.sleep(0.01)
+            await asyncio.sleep(0.35)
             # Fade out
             seq = [x/10 for x in range(10, -1, -1)]
             for i in seq:
