@@ -1,2 +1,2 @@
 print("Hello World!")
-# import test
+import evpi_canbox
