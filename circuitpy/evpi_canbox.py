@@ -76,12 +76,13 @@ async def brake_off_timer():
 
 async def brake_on(group):
     pixels_list = []
+    color = (255, 18, 0)
     try:
         for port_use in group['ports']:
             for port in config['ports']:
                 if port_use == port['name']:
                     pixels_list.append(neopixel.NeoPixel(pin(port['pin1']), 144, brightness=1.0, auto_write=True, pixel_order=neopixel.GRB))
-                    pixels_list[len(pixels_list) - 1].fill((255, 18, 0))
+                    pixels_list[len(pixels_list) - 1].fill(color)
         # Task never end, unless cancel by the brake off timer
         while True:
             await asyncio.sleep(0)
@@ -105,7 +106,71 @@ async def BrakeLight(group):
         brake_off_task.cancel()
         brake_off_task = asyncio.create_task(brake_off_timer())
 
-func_callback = {
+speed_pixels_up = []
+speed_pixels_down = []
+speed_off_task = None
+
+async def speed_off_timer():
+    global speed_off_task
+    global speed_pixels_down
+    global speed_pixels_up
+    try:
+        await asyncio.sleep(0.2)
+        for pixels in speed_pixels_down:
+            pixels.deinit()
+        for pixels in speed_pixels_up:
+            pixels.deinit()
+        speed_pixels_down = []
+        speed_pixels_up = []
+        speed_off_task = None
+    except asyncio.CancelledError:
+        return
+    except Exception as e:
+        #print(e)
+        return
+    
+async def SpeedBar(num):
+    global speed_off_task
+    global speed_pixels_down
+    global speed_pixels_up
+    
+    color = (20, 255, 255)
+    
+    if speed_off_task is None:
+        for group in config['groups']:
+            if group['name'] == 'SpeedBarLeft' or group['name'] == 'SpeedBarRight':
+                for port in config['ports']:
+                    if port['name'] == group['ports'][0]:
+                        speed_pixels_up.append(neopixel.NeoPixel(pin(port['pin1']), 144, brightness=1.0, auto_write=False, pixel_order=neopixel.GRB))
+                    if port['name'] == group['ports'][1]:
+                        speed_pixels_down.append(neopixel.NeoPixel(pin(port['pin1']), 144, brightness=1.0, auto_write=False, pixel_order=neopixel.GRB))
+        speed_off_task = asyncio.create_task(speed_off_timer())
+    else:
+        speed_off_task.cancel()
+        speed_off_task = asyncio.create_task(speed_off_timer())
+    
+    try:
+        for pixels in speed_pixels_down:
+            for i in range (0, 144):
+                if i < num:
+                    pixels[i] = color
+                else:
+                    pixels[i] = (0, 0, 0)
+            pixels.show()
+            
+        if num > 144:
+            for pixels in speed_pixels_up:
+                for i in range (0, 144):
+                    if i + 144 < num:
+                        pixels[i] = color
+                    else:
+                        pixels[i] = (0, 0, 0)
+                pixels.show()
+    except Exception as e:
+        #print(e)
+        return
+
+req_func_callback = {
     "HazardWarningReq" : HazardWarningReq,
     "RightTurnLightReq" : TurnLightReq,
     "LeftTurnLightReq" : TurnLightReq,
@@ -125,10 +190,16 @@ async def CANListener(can):
         
         message = listener.receive()
         if message is not None:
+            # Scan for request
             for group in config['groups']:
                 if message.id == group['id'] and message.data == bytearray(group['data']):
                     print(group['description'], time.monotonic())
-                    await func_callback[group['name']](group)
+                    await req_func_callback[group['name']](group)
+        
+            if message.id == 515:
+                await SpeedBar(message.data[1]+message.data[2])
+                print('Show the speed', time.monotonic())
+        
         # Setting the delay to 0 provides an optimized path to allow other tasks to run. 
         await asyncio.sleep(0) # Free up the resource for a while. 
 
