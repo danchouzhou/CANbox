@@ -5,37 +5,63 @@
             "id" : 516, 
             "data" : [128, 0, 0, 0, 0, 0, 0, 0], 
             "description" : "Hazard Warning Request", 
-            "ports" : ["port_1", "port_2", "port_3", "port_4"]
+            "ports" : ["port_a", "port_b", "port_c", "port_d"]
         },
         {
             "name" : "RightTurnLightReq",
             "id" : 516, 
             "data" : [1, 0, 0, 0, 0, 0, 0, 0], 
             "description" : "Right Turning Light Request", 
-            "ports" : ["port_1", "port_2"]
+            "ports" : ["port_a", "port_b"]
         },
         {
             "name" : "LeftTurnLightReq",
             "id" : 516, 
             "data" : [0, 128, 0, 0, 0, 0, 0, 0], 
             "description" : "Left Turning Light Request", 
-            "ports" : ["port_3", "port_4"]
+            "ports" : ["port_c", "port_d"]
+        },
+        {
+            "name" : "BrakeLight",
+            "id" : 513, 
+            "data" : [1, 0, 0, 0, 0, 0, 0, 0], 
+            "description" : "Brake light", 
+            "ports" : ["port_a", "port_b", "port_c", "port_d"]
+        },
+        {
+            "name" : "SpeedBarLeft",
+            "id" : 515, 
+            "data" : [0, 0, 0, 0, 0, 0, 0, 0], 
+            "description" : "Speed bar Left", 
+            "ports" : ["port_c", "port_d"]
+        },
+        {
+            "name" : "SpeedBarRight",
+            "id" : 515, 
+            "data" : [0, 0, 0, 0, 0, 0, 0, 0], 
+            "description" : "Speed bar Left", 
+            "ports" : ["port_a", "port_b"]
         }
     ],
     "ports" : [
         {
-            "name" : "port_0",
-            "pin1" : "NEOPIXEL",
-            "pin2" : "A0"
+            "name" : "port_a",
+            "pin1" : "SDA",
+            "pin2" : "A5"
         },
         {
-            "name" : "port_1",
-            "pin1" : "NEOPIXEL",
-            "pin2" : "A1"
+            "name" : "port_b",
+            "pin1" : "SCL",
+            "pin2" : "A4"
         },
         {
-            "name" : "port_2",
+            "name" : "port_c",
             "pin1" : "D5",
+            "pin2" : "A3"
+        },
+        {
+            "name" : "port_d",
+            "pin1" : "D6",
             "pin2" : "A2"
         }
     ]
