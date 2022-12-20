@@ -31,16 +31,23 @@
         {
             "name" : "SpeedBarLeft",
             "id" : 515, 
-            "data" : [0, 0, 0, 0, 0, 0, 0, 0], 
+            "data" : [255, 0, 0, 0, 0, 0, 0, 0], 
             "description" : "Speed bar Left", 
             "ports" : ["port_c", "port_d"]
         },
         {
             "name" : "SpeedBarRight",
             "id" : 515, 
-            "data" : [0, 0, 0, 0, 0, 0, 0, 0], 
+            "data" : [255, 0, 0, 0, 0, 0, 0, 0], 
             "description" : "Speed bar Left", 
             "ports" : ["port_a", "port_b"]
+        },
+        {
+            "name" : "FillColor",
+            "id" : 514, 
+            "data" : [255, 0, 0, 0, 0, 0, 0, 0], 
+            "description" : "Fill color", 
+            "ports" : ["port_a", "port_b", "port_c", "port_d"]
         }
     ],
     "ports" : [
