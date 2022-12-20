@@ -222,6 +222,8 @@ async def FillColor(color):
             # Reset fill off timer if the fill off task present
             fill_off_task.cancel()
             fill_off_task = asyncio.create_task(fill_off_timer())
+            for pixels in fill_pixels:
+                pixels.fill(color)
     
     except Exception as e:
         for pixels in fill_pixels:
