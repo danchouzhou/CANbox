@@ -9,3 +9,4 @@
 - [Overview | Cooperative Multitasking in CircuitPython with asyncio | Adafruit Learning System](https://learn.adafruit.com/cooperative-multitasking-in-circuitpython-with-asyncio)
 - [Send and Receive | CAN Bus with CircuitPython: Using the canio module | Adafruit Learning System](https://learn.adafruit.com/using-canio-circuitpython/send-receive)
 - [Design Without Compromise: Signals from the Heart | Mazda Stories](https://mazdastories.com/en_us/innovate/design-without-compromise-signals-from-the-heart/)
+- [新唐火神板開箱實作（四）：Kvaser USB/CAN adapter於Linux環境下的使用筆記](https://danchouzhou.blogspot.com/2021/05/KvaserUSB2CAN.html)
