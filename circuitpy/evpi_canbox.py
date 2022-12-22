@@ -87,6 +87,16 @@ async def brake_on():
         while True:
             await asyncio.sleep(0)
     except asyncio.CancelledError:
+        async def pixoff(pixels):
+            # Fade out
+            seq = [x/3 for x in range(3, -1, -1)]
+            for i in seq:
+                pixels.fill((255*i, 18*i, 0))
+                await asyncio.sleep(0)
+        tasks = []
+        for pixels in brake_pixels:
+            tasks.append(asyncio.create_task(pixoff(pixels)))
+        await asyncio.gather(*tasks)
         for pixels in brake_pixels:
             pixels.deinit() # This will also turn off the neopixels
         brake_pixels = []
