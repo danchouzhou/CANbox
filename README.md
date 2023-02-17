@@ -1,4 +1,6 @@
 # CANbox
+![image](DSC_2296.JPG)
+
 ## Usage
 1. [Program the CircuitPython firmware](https://github.com/danchouzhou/CANbox/tree/main/firmware)
 2. [Copy all files in circuitpy directory to CIRCUITPY disk](https://github.com/danchouzhou/CANbox/tree/main/circuitpy)
